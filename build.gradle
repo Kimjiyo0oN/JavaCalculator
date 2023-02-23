@@ -34,12 +34,12 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId = 'io.github.Kimjiyo0oN'
-            artifactId = 'artifactId'
+            artifactId = 'JavaCalculator'
             from components.java
             version = '1.0.0'
             pom {
-                name = 'Open Source Project'
-                description = '자바 코드 계산기'
+                name = 'JavaCalculator'
+                description = 'Open Source Project'
                 url = 'https://github.com/Kimjiyo0oN/JavaCalculator'
                 licenses {
                     license {
