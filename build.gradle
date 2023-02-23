@@ -1,19 +1,92 @@
 plugins {
     id 'java'
+    id 'maven-publish'
+    id 'signing'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'io.github.Kimjiyo0oN'
+version '1.0.0'
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+publishing {
+    repositories {
+        maven {
+            if (version.toString().endsWith("SNAPSHOT")) {
+                url "https://s01.oss.sonatype.org/content/repositories/snapshots"
+            }
+            else {
+                url "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            }
+            credentials {
+                username ossrhUsername
+                password ossrhPassword
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'io.github.Kimjiyo0oN'
+            artifactId = 'artifactId'
+            from components.java
+            version = '1.0.0'
+            pom {
+                name = 'Open Source Project'
+                description = '자바 코드 계산기'
+                url = 'https://github.com/Kimjiyo0oN/JavaCalculator'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'Kimjiyo0oN'
+                        name = 'jiyoon kim'
+                        email = 'wldbs41668958@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/Kimjiyo0oN/JavaCalculator.git'
+                    developerConnection = 'scm:git:ssh://github.com/Kimjiyo0oN/JavaCalculator.git'
+                    url = 'https://github.com/Kimjiyo0oN'
+                }
+            }
+        }
+    }
+
+
 }
 
+
+signing {
+    sign publishing.publications.mavenJava
+}
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    //implementation 'com.github.Kimjiyo0oN:JavaCalculator:0.0.1'
+    //implementation 'com.github.Kimjiyo0oN:JavaCalculator:master-SNAPSHOT'
+    //compile 'com.github.{username}:{repository}:{tag}'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Javadoc) {
+    options.encoding = 'UTF-8'
 }
 
 test {
     useJUnitPlatform()
 }
+
